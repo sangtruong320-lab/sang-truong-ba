@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Truong Dinh Sang — IT Business Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --bg2: #111114;
+    --surface: #16161a;
+    --border: #222228;
+    --accent: #e8ff47;
+    --accent2: #47c8ff;
+    --text: #e8e8ec;
+    --muted: #6b6b7a;
+    --muted2: #3a3a45;
+    --red: #ff4757;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.6;
+  }
+  .ticker-wrap {
+    background: var(--accent); color: #0a0a0b;
+    height: 32px; overflow: hidden;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center;
+  }
+  .ticker-content {
+    display: flex;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-content span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0 40px;
+  }
+  .ticker-sep { color: #0a0a0b88; }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  nav {
+    position: fixed; top: 32px; left: 0; right: 0; z-index: 99;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 48px;
+    background: rgba(10,10,11,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .hero {
+    min-height: 100vh; padding: 160px 48px 80px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute;
+    right: -200px; top: 50%; transform: translateY(-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,255,71,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-label::before {
+    content: ''; display: inline-block;
+    width: 32px; height: 1px; background: var(--accent);
+  }
+  .hero-name {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(48px, 6vw, 88px);
+    line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 8px;
+  }
+  .hero-name .last { color: var(--accent); }
+  .hero-title {
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: clamp(18px, 2.5vw, 28px);
+    color: var(--muted); margin-bottom: 32px; letter-spacing: -0.01em;
+  }
+  .hero-desc {
+    font-size: 15px; color: var(--muted); line-height: 1.8;
+    max-width: 480px; margin-bottom: 48px;
+  }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #0a0a0b;
+    padding: 14px 28px;
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; font-weight: 700;
+    transition: transform 0.15s, box-shadow 0.15s; display: inline-block;
+  }
+  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--accent2); }
+  .btn-ghost {
+    border: 1px solid var(--border); color: var(--muted);
+    padding: 14px 28px;
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; transition: border-color 0.2s, color 0.2s; display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; background: var(--border);
+  }
+  .stat-card {
+    background: var(--surface); padding: 28px;
+    position: relative; overflow: hidden;
+  }
+  .stat-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px; background: var(--border);
+  }
+  .stat-card.accent::before { background: var(--accent); }
+  .stat-card.accent2::before { background: var(--accent2); }
+  .stat-card.red::before { background: var(--red); }
+  .stat-num {
+    font-family: 'Space Mono', monospace; font-size: 36px;
+    font-weight: 700; line-height: 1; margin-bottom: 8px; color: var(--text);
+  }
+  .stat-num .unit { font-size: 16px; color: var(--muted); }
+  .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  section { padding: 100px 48px; }
+  section + section { border-top: 1px solid var(--border); }
+  .section-label {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--border); max-width: 80px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: clamp(28px, 4vw, 48px);
+    letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 48px;
+  }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--border); margin-top: 0;
+  }
+  .skill-group { background: var(--surface); padding: 32px; }
+  .skill-group-title {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--border);
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    padding: 6px 12px; border: 1px solid var(--border);
+    color: var(--muted); letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s; cursor: default;
+  }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+  .skill-tag.hot { border-color: var(--accent2); color: var(--accent2); }
+  .projects-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; background: var(--border);
+  }
+  .project-card {
+    background: var(--surface); padding: 40px;
+    position: relative; overflow: hidden; transition: background 0.2s;
+  }
+  .project-card:hover { background: #1a1a20; }
+  .project-card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px; background: var(--border);
+    transition: background 0.2s;
+  }
+  .project-card:nth-child(1)::after { background: var(--accent); }
+  .project-card:nth-child(2)::after { background: var(--accent2); }
+  .project-year {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--muted); letter-spacing: 0.1em; margin-bottom: 16px;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 20px; line-height: 1.2; margin-bottom: 8px; letter-spacing: -0.02em;
+  }
+  .project-sub {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--accent); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+  .project-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .project-bullets li {
+    font-size: 13px; color: var(--muted); padding-left: 16px;
+    position: relative; line-height: 1.6;
+  }
+  .project-bullets li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--accent); font-size: 10px; top: 2px;
+  }
+  .project-kpi { display: flex; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
+  .kpi {
+    background: var(--bg2); border: 1px solid var(--border);
+    padding: 10px 16px;
+  }
+  .kpi-val {
+    font-family: 'Space Mono', monospace; font-size: 14px;
+    font-weight: 700; color: var(--accent);
+  }
+  .kpi-desc { font-size: 10px; color: var(--muted); letter-spacing: 0.05em; margin-top: 2px; }
+  .exp-block {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 48px; padding: 40px 0; border-bottom: 1px solid var(--border);
+  }
+  .exp-block:last-child { border-bottom: none; }
+  .exp-company {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 8px;
+  }
+  .exp-period {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--muted); letter-spacing: 0.08em;
+  }
+  .exp-role {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 22px; margin-bottom: 16px; letter-spacing: -0.02em;
+  }
+  .exp-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .exp-points li {
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+    padding-left: 20px; position: relative;
+  }
+  .exp-points li::before {
+    content: '//'; position: absolute; left: 0;
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    color: var(--muted2); top: 3px;
+  }
+  .edu-block {
+    border: 1px solid var(--border); padding: 40px;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 32px; align-items: start;
+    position: relative; overflow: hidden;
+  }
+  .edu-block::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent);
+  }
+  .edu-school {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--muted); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .edu-degree {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 24px; margin-bottom: 16px; letter-spacing: -0.02em;
+  }
+  .edu-courses { display: flex; flex-wrap: wrap; gap: 8px; }
+  .edu-course {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    padding: 4px 10px; background: var(--bg2); color: var(--muted); letter-spacing: 0.05em;
+  }
+  .badge-status {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 6px 12px; border: 1px solid var(--accent);
+    color: var(--accent); display: inline-block; margin-bottom: 12px;
+  }
+  .badge-year {
+    display: block; font-family: 'Space Mono', monospace;
+    font-size: 28px; font-weight: 700; color: var(--muted2);
+    letter-spacing: -0.03em; text-align: right;
+  }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; background: var(--border);
+  }
+  .contact-card { background: var(--surface); padding: 40px; }
+  .contact-label {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+  .contact-val {
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: 18px; color: var(--text);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .contact-val:hover { color: var(--accent); }
+  footer {
+    padding: 32px 48px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer .f-logo {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--muted2); letter-spacing: 0.1em;
+  }
+  footer .f-avail {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  footer .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--muted2); }
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 140px 24px 60px; }
+    .hero::after { display: none; }
+    section { padding: 60px 24px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .exp-block { grid-template-columns: 1fr; gap: 16px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .edu-block { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap">
+  <div class="ticker-content">
+    <span>TRUONG DINH SANG <span class="ticker-sep">◆</span> IT BUSINESS ANALYST <span class="ticker-sep">◆</span> FINANCE & BANKING <span class="ticker-sep">◆</span> BPMN 2.0 <span class="ticker-sep">◆</span> SQL <span class="ticker-sep">◆</span> POWER BI <span class="ticker-sep">◆</span> AVAILABLE FULL-TIME <span class="ticker-sep">◆</span></span>
+    <span>TRUONG DINH SANG <span class="ticker-sep">◆</span> IT BUSINESS ANALYST <span class="ticker-sep">◆</span> FINANCE & BANKING <span class="ticker-sep">◆</span> BPMN 2.0 <span class="ticker-sep">◆</span> SQL <span class="ticker-sep">◆</span> POWER BI <span class="ticker-sep">◆</span> AVAILABLE FULL-TIME <span class="ticker-sep">◆</span></span>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-logo">TDS / BA</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="TruongDinhSang_CV_BA.pdf" target="_blank">↓ PDF</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-left reveal">
+    <div class="hero-label">Ho Chi Minh City · Available Now</div>
+    <h1 class="hero-name">TRUONG<br>DINH <span class="last">SANG</span></h1>
+    <p class="hero-title">IT Business Analyst</p>
+    <p class="hero-desc">Finance & Banking foundation. 2+ years in accounting operations. Self-driven BA practice: BPMN modeling, BRD authoring, SQL analytics. Translates messy business problems into structured, buildable solutions.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">Get in Touch</a>
+      <a href="TruongDinhSang_CV_BA.pdf" target="_blank" class="btn-ghost">Download CV ↓</a>
+    </div>
+  </div>
+  <div class="hero-stats reveal" style="transition-delay:0.2s">
+    <div class="stat-card accent">
+      <div class="stat-num">2<span class="unit">yr+</span></div>
+      <div class="stat-label">Corporate Experience</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">500<span class="unit">+</span></div>
+      <div class="stat-label">Invoices / Month</div>
+    </div>
+    <div class="stat-card accent2">
+      <div class="stat-num">700<span class="unit">K</span></div>
+      <div class="stat-label">SQL Records Analyzed</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-num">48<span class="unit">→4h</span></div>
+      <div class="stat-label">Process Time Reduced</div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="reveal">
+    <div class="section-label">02 / Capabilities</div>
+    <h2 class="section-title">What I<br>Actually Do</h2>
+  </div>
+  <div class="skills-grid reveal" style="transition-delay:0.15s">
+    <div class="skill-group">
+      <div class="skill-group-title">Business Analysis</div>
+      <div class="skill-tags">
+        <span class="skill-tag hot">BPMN 2.0</span>
+        <span class="skill-tag hot">UML</span>
+        <span class="skill-tag">BRD</span>
+        <span class="skill-tag">ERD</span>
+        <span class="skill-tag">Gap Analysis</span>
+        <span class="skill-tag">As-Is / To-Be</span>
+        <span class="skill-tag">Use Case</span>
+        <span class="skill-tag">Sequence Diagram</span>
+        <span class="skill-tag">Stakeholder Req.</span>
+        <span class="skill-tag">Process Modeling</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Data & Reporting</div>
+      <div class="skill-tags">
+        <span class="skill-tag hot">SQL</span>
+        <span class="skill-tag hot">Power BI</span>
+        <span class="skill-tag">CTE</span>
+        <span class="skill-tag">Window Functions</span>
+        <span class="skill-tag">Subquery</span>
+        <span class="skill-tag">Self JOIN</span>
+        <span class="skill-tag">Temp Tables</span>
+        <span class="skill-tag">DAX</span>
+        <span class="skill-tag">PostgreSQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Tools & Domain</div>
+      <div class="skill-tags">
+        <span class="skill-tag">draw.io</span>
+        <span class="skill-tag">VS Code</span>
+        <span class="skill-tag">Jira</span>
+        <span class="skill-tag">Excel</span>
+        <span class="skill-tag">Finance & Banking</span>
+        <span class="skill-tag">Accounting Ops</span>
+        <span class="skill-tag">Reconciliation</span>
+        <span class="skill-tag">Vietnamese</span>
+        <span class="skill-tag">English (Pro)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">03 / Projects</div>
+    <h2 class="section-title">Shipped<br>Work</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-year">2026</div>
+      <h3 class="project-title">E-Commerce Order<br>Process Improvement</h3>
+      <div class="project-sub">Business Analysis · BPMN · BRD</div>
+      <ul class="project-bullets">
+        <li>Full As-Is analysis across 4 departments — found 5 critical pain points including single point of failure and zero audit trail</li>
+        <li>Designed To-Be process: automated intake, real-time inventory check, self-service tracking portal</li>
+        <li>Produced full artifact suite: BPMN flows, Sequence Diagram, Use Case, ERD, exception workflows</li>
+        <li>Authored BRD: 5 Business Reqs, 10 Functional, 6 Non-Functional — with KPIs, validation logic, UAT prep</li>
+      </ul>
+      <div class="project-kpi">
+        <div class="kpi"><div class="kpi-val">48h → 4h</div><div class="kpi-desc">Processing Time</div></div>
+        <div class="kpi"><div class="kpi-val">0 SPOF</div><div class="kpi-desc">Key-Man Risk</div></div>
+        <div class="kpi"><div class="kpi-val">Full Audit</div><div class="kpi-desc">Compliance</div></div>
+      </div>
+    </div>
+    <div class="project-card reveal" style="transition-delay:0.1s">
+      <div class="project-year">2025</div>
+      <h3 class="project-title">DA Job Market<br>Salary & Skills Analysis</h3>
+      <div class="project-sub">SQL · Power BI · Data Analytics</div>
+      <ul class="project-bullets">
+        <li>Analyzed 700K+ job postings using CTEs, Window Functions (LAG, RANK, ROW_NUMBER), self-JOIN, multi-level Temp Tables</li>
+        <li>Built 5-page Power BI dashboard with DAX — salary trends by skill, company, title, remote vs on-site</li>
+        <li>SQL most in-demand skill (3,892 postings); remote AI/ML roles command salary premium</li>
+        <li>DA salary peaks June (~$102K avg), dips Q4 — actionable for seasonal hiring strategy</li>
+      </ul>
+      <div class="project-kpi">
+        <div class="kpi"><div class="kpi-val">700K+</div><div class="kpi-desc">Records</div></div>
+        <div class="kpi"><div class="kpi-val">5-Page</div><div class="kpi-desc">Dashboard</div></div>
+        <div class="kpi"><div class="kpi-val">$102K</div><div class="kpi-desc">Peak Insight</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="reveal">
+    <div class="section-label">04 / Experience</div>
+    <h2 class="section-title">Where I've<br>Been</h2>
+  </div>
+  <div class="exp-block reveal" style="transition-delay:0.1s">
+    <div class="exp-meta">
+      <div class="exp-company">Minh Khoi Technology</div>
+      <div class="exp-period">2023 – 2025<br>Ho Chi Minh City</div>
+    </div>
+    <div>
+      <h3 class="exp-role">Accounting Intern</h3>
+      <ul class="exp-points">
+        <li>Processed 500+ invoices per month across departments — maintained accuracy through structured reconciliation workflow</li>
+        <li>Reconciled cross-department invoice and inventory data — identified and resolved discrepancies before month-end closing</li>
+        <li>Supported operational reporting and warehouse documentation — developed habit of questioning data anomalies and tracing root causes</li>
+        <li>Direct exposure to business process gaps: manual handoffs, Excel tracking, phone communication — directly informed subsequent BA project work</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="reveal">
+    <div class="section-label">05 / Education</div>
+    <h2 class="section-title">Foundations</h2>
+  </div>
+  <div class="edu-block reveal" style="transition-delay:0.1s">
+    <div>
+      <div class="edu-school">Ho Chi Minh City Open University</div>
+      <div class="edu-degree">Bachelor of Finance<br>& Banking</div>
+      <div class="edu-courses">
+        <span class="edu-course">Financial Accounting</span>
+        <span class="edu-course">Corporate Finance</span>
+        <span class="edu-course">Financial Analysis</span>
+        <span class="edu-course">Business Statistics</span>
+      </div>
+    </div>
+    <div>
+      <span class="badge-status">In Progress</span>
+      <span class="badge-year">2027</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">06 / Contact</div>
+    <h2 class="section-title">Let's Talk</h2>
+  </div>
+  <div class="contact-grid reveal" style="transition-delay:0.1s">
+    <div class="contact-card">
+      <div class="contact-label">Email</div>
+      <a href="mailto:sangtruong320@gmail.com" class="contact-val">sangtruong320@gmail.com</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-label">Phone</div>
+      <a href="tel:+84946255768" class="contact-val">094 625 5768</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-label">LinkedIn</div>
+      <a href="https://www.linkedin.com/in/truong-sang-368937377/" target="_blank" class="contact-val">linkedin.com/in/truong-sang</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-label">GitHub</div>
+      <a href="https://github.com/sangtruong320-lab" target="_blank" class="contact-val">github.com/sangtruong</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">TRUONG DINH SANG © 2026</div>
+  <div class="f-avail"><span class="dot"></span>Available for Full-time</div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+  }, 100);
+</script>
+</body>
+</html>
